@@ -11,7 +11,7 @@ const PromptInput = ({setCode, code,  setExplanation }) => {
     if (!prompt.trim()) return;
     setLoading(true);
     try {
-      const res = await axios.post('http://localhost:5000/api/generate', { prompt });
+      const res = await axios.post('https://reactai-production-4e03.up.railway.app/api/generate', { prompt });
       setCode(res.data.code);
     } catch (err) {
       console.error(err);
@@ -28,7 +28,7 @@ const PromptInput = ({setCode, code,  setExplanation }) => {
   }
   setExplainLoading(true);
   try {
-    const res = await axios.post('http://localhost:5000/api/explain', { code });
+    const res = await axios.post('https://reactai-production-4e03.up.railway.app/api/explain', { code });
     if (setExplanation) {
       setExplanation(res.data.explanation);
     } else {
@@ -46,7 +46,7 @@ const PromptInput = ({setCode, code,  setExplanation }) => {
   const regenerateCode = async () => {
     setRegenLoading(true);
     try {
-      const res = await axios.post('http://localhost:5000/api/regenerate');
+      const res = await axios.post('https://reactai-production-4e03.up.railway.app/api/regenerate');
       setCode(res.data.code);
     } catch (err) {
       console.error(err);
