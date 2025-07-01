@@ -16,7 +16,8 @@ It features a clean UI built with React, Tailwind CSS, and integrates the Monaco
 ---
 
 ## 🛠 **Tech Stack**
-- **Frontend:** React, React Router, Tailwind CSS, React Icons, Axios,Express js, Node js,Gemini AI
+- **Frontend:** React, React Router, Tailwind CSS, React Icons, Axios
+-  **Backend:** Node.js, Express.js, Gemini AI API (2.0 Flash)
 - **Editor:** @monaco-editor/react
 - **Build tool:** Vite with Tailwind plugin
 
