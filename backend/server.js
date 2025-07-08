@@ -8,7 +8,11 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(cors());
+app.use(cors({
+origin: ['http://localhost:5173/', 'https://react-ai-theta.vercel.app'],
+  methods: ['GET', 'POST'],
+  credentials: true
+}));
 app.use(express.json());
 
 // Initialize Gemini
@@ -36,6 +40,9 @@ Generate:
 - Export it as default: export default function App() { ... }
 - Use Tailwind CSS if explicitly asked by the user, otherwise use plain CSS
 - Always create a professional, clean, and modern UI
+- Always return fully working code with real functionalities (like dark and light mode toggle, animations, etc.)
+- Provide complete and large code that is best practice, clean, and includes helpful comments
+
 
 Important:
 - Do NOT include markdown fences, no backticks, no explanation
@@ -103,12 +110,13 @@ Generate:
 - Use Tailwind CSS if explicitly asked by the user, otherwise use plain CSS
 - Always create a professional, clean, and modern UI
 - Create a slightly different variation from the previous one
+- Always return fully working code with real functionalities (like dark and light mode toggle, animations, etc.)
+- Provide complete and large code that is best practice, clean, and includes helpful comments
 
 Important:
 - Do NOT include markdown fences, no backticks, no explanation
 - Return only clean React code
-    `;
-
+`;
     const result = await model.generateContent(promptText);
     const text = result.response.text();
 

@@ -27,12 +27,20 @@ function App() {
                   <LivePreview code={code} />
                 </div>
               </div>
-              {explanation && (
-                <div className="bg-gray-800/80 backdrop-blur-sm border border-gray-700/50 rounded-xl shadow-xl p-4 text-gray-200 text-sm whitespace-pre-wrap">
-                  <h4 className="text-lg font-semibold mb-2 text-white">Explanation</h4>
-                  {explanation}
-                </div>
-              )}
+            {explanation && (
+  <div className="relative bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-md border border-gray-700/50 rounded-2xl shadow-2xl p-6 text-gray-100 text-sm whitespace-pre-wrap transition-all duration-300 hover:shadow-3xl">
+    <h4 className="text-lg font-bold mb-3 text-white flex items-center gap-2">
+      <svg className="w-5 h-5 text-indigo-400" fill="currentColor" viewBox="0 0 20 20">
+        <path d="M18 10A8 8 0 11 2 10a8 8 0 0116 0zM9 8a1 1 0 012 0v4a1 1 0 01-2 0V8zm1 7a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
+      </svg>
+      Explanation
+    </h4>
+    <p className="leading-relaxed tracking-wide">
+      {explanation}
+    </p>
+  </div>
+)}
+
             </div>
           } />
           <Route path="/about" element={<ReactAIProduct />} />

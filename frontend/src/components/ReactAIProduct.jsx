@@ -125,14 +125,14 @@ const ReactAIProduct = ({ onBack }) => {
           <h2 className="text-2xl font-bold mb-6">Example Prompts</h2>
           <div className="grid md:grid-cols-2 gap-6">
             {[
-              "A responsive navbar with mobile menu toggle using Tailwind",
-              "Login form with email validation and submit button",
-              "Card component with image, title, description and button",
-              "Modal dialog with overlay and close button",
-              "Accordion component with smooth animations",
-              "Pagination component for a data table",
-              "Dark/light theme toggle switch",
-              "Loading spinner with custom animation"
+            "A responsive navbar with mobile menu toggle built using React functional components and styled entirely with Tailwind CSS utility classes.",
+  "Login form with email validation and submit button built with React functional components, Tailwind CSS for styling, and inline validation logic using React hooks (useState, etc.), keeping everything in one file.",
+  "Card component with image, title, description, and button styled only with Tailwind CSS utility classes and inline styling for any custom colors or effects, without using external CSS files.",
+  "Modal dialog with overlay and close button implemented using React functional components, Tailwind CSS for layout and styling, and React hooks (useState) for managing open/close state, all inside a single file.",
+  "Accordion component with smooth animations built as React functional components, styled with Tailwind CSS classes, and using inline styling or inline keyframes directly in the same file for animation, avoiding external CSS.",
+  "Pagination component for a data table implemented with React functional components, styled entirely with Tailwind CSS classes and optional inline styling for active page highlights, with no extra CSS files.",
+  "Dark/light theme toggle switch built using React functional components and Tailwind CSS dark mode classes, managed with React hooks (useState), and using inline styling for any custom transitions, all in one file.",
+  "Loading spinner with custom animation created as a React functional component, styled with Tailwind CSS classes and inline keyframes or inline styles for the animation, completely independent of external CSS files."
             ].map((prompt, index) => (
               <div key={index} className="bg-gray-800/50 border border-gray-700/50 rounded-lg p-4 hover:border-blue-400/30 transition-all">
                 <div className="text-gray-400 text-sm mb-1">Example {index + 1}:</div>
