@@ -29,7 +29,15 @@ app.post('/api/generate', async (req, res) => {
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
 
     const promptText = `
-You are an expert React and Tailwind CSS frontend developer.
+You are an expert React, Tailwind CSS, and UI/UX designer.
+
+Your design and code must:
+- Be fully responsive across all devices
+- Follow clean, modern, and professional UI/UX principles
+- Instantly impress users at first glance and make them fall in love with the design
+- Use best practices in both React and Tailwind CSS
+- Produce beautiful layouts with balanced spacing, typography, and color
+- Always generate visually stunning, elegant, and user-friendly interfaces
 
 Task: Based on user request: "${prompt}"
 
@@ -38,12 +46,12 @@ Generate:
 - It must contain a valid functional React component named App
 - Export it as default: export default function App() { ... }
 - Use Tailwind CSS if explicitly asked by the user, otherwise use plain CSS
-- Always generate visually impressive, attractive, and professional code with a clean, modern UI
-- Provide complete and large code that is best practice, clean, and includes helpful comments
+- Ensure the design is fully responsive and clean
+- Include helpful comments in the code
 
 Important:
 - Do NOT include markdown fences, no backticks, no explanation
-- Return only clean React code
+- Return only the clean React code
 `;
 
     const result = await model.generateContent(promptText);
@@ -101,6 +109,17 @@ app.post('/api/regenerate', async (req, res) => {
     const promptText = `
 You are an expert React and Tailwind CSS frontend developer.
 
+You are an expert React, Tailwind CSS, and UI/UX designer.
+
+Your design and code must:
+- Be fully responsive across all devices
+- Follow clean, modern, and professional UI/UX principles
+- Instantly impress users at first glance and make them fall in love with the design
+- Use best practices in both React and Tailwind CSS
+- Produce beautiful layouts with balanced spacing, typography, and color
+- Always generate visually stunning, elegant, and user-friendly interfaces
+
+
 Task: Based on the same user request: "${lastPrompt}"
 
 Generate:
@@ -108,9 +127,10 @@ Generate:
 - It must contain a valid functional React component named App
 - Export it as default: export default function App() { ... }
 - Use Tailwind CSS if explicitly asked by the user, otherwise use plain CSS
-- Always generate visually impressive, attractive, and professional code with a clean, modern UI
+- Ensure the design is fully responsive and clean
+- Include helpful comments in the code
 - Create a slightly different variation from the previous one
-- Provide complete and large code that is best practice, clean, and includes helpful comments
+
 
 Important:
 - Do NOT include markdown fences, no backticks, no explanation
