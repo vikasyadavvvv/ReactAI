@@ -27,7 +27,7 @@ app.post('/api/generate', async (req, res) => {
   lastPrompt = prompt;
 
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
 
     const promptText = `
 You are an expert React and Tailwind CSS frontend developer.
