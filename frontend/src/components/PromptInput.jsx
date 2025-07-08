@@ -144,7 +144,7 @@ const PromptInput = ({setCode, code,  setExplanation }) => {
       : 'bg-gradient-to-r from-yellow-500 to-orange-500 text-white hover:from-yellow-600 hover:to-orange-600 shadow-md hover:shadow-lg transform hover:-translate-y-0.5'
     }`}
 >
-  {regenLoading ? 'Regenerating...' : 'Regenerate'}
+  {regenLoading ? 'Regenerating...' : 'Regenerate for an even better version'}
 </button>
 
       </div>

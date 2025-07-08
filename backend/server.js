@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import axios from 'axios';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
 dotenv.config();
@@ -17,6 +18,31 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 // Store last prompt
 let lastPrompt = '';
 
+// Helper: fetch multiple Unsplash images based on query
+async function fetchUnsplashImages(query, count = 3) {
+  try {
+    const response = await axios.get('https://api.unsplash.com/search/photos', {
+      params: {
+        query,
+        per_page: count,
+        orientation: 'landscape',
+      },
+      headers: {
+        Authorization: `Client-ID ${process.env.UNSPLASH_ACCESS_KEY}`
+      }
+    });
+
+    if (response.data.results && response.data.results.length > 0) {
+      return response.data.results.map(photo => photo.urls.regular);
+    } else {
+      return [];
+    }
+  } catch (error) {
+    console.error('Error fetching Unsplash images:', error?.response?.data || error.message || error);
+    return [];
+  }
+}
+
 // Generate code
 app.post('/api/generate', async (req, res) => {
   const { prompt } = req.body;
@@ -26,10 +52,14 @@ app.post('/api/generate', async (req, res) => {
   lastPrompt = prompt;
 
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
-    const promptText = `
-You are an expert React, Tailwind CSS, and UI/UX designer.
+    const imageUrls = await fetchUnsplashImages(prompt, 3);
+    const fallbackUrl = 'https://source.unsplash.com/random/800x600';
+    const imageList = imageUrls.length > 0 ? imageUrls.join(', ') : fallbackUrl;
+
+   const promptText = `
+You are an expert React, Tailwind CSS, and UI/UX designer, and also an excellent SVG generator who always creates clean, valid, production-ready inline SVGs.
 
 Your design and code must:
 - Be fully responsive across all devices
@@ -38,6 +68,14 @@ Your design and code must:
 - Use best practices in both React and Tailwind CSS
 - Produce beautiful layouts with balanced spacing, typography, and color
 - Always generate visually stunning, elegant, and user-friendly interfaces
+- Use these live Unsplash image URLs wherever suitable so images always load, but only include images if the user explicitly asks for them or if the generated code naturally requires images: ${imageList}
+
+Important:
+- This must be your best possible, production-ready version on the first attempt
+- Code should be clean, beautiful, maintainable, and immediately usable in production
+- Do NOT use npm libraries like react-icons or any imports that require installation
+– For social media icons, do not use SVGs. Instead, use clean, accessible text labels or styled buttons with the social platform names (e.g., “Facebook”, “Twitter”). Design them to look modern and visually appealing using Tailwind CSS or plain CSS.- Only use production-ready inline SVGs copied directly from trusted icon libraries like Heroicons, Feather, or Remix Icon
+
 
 Task: Based on user request: "${prompt}"
 
@@ -46,7 +84,7 @@ Generate:
 - It must contain a valid functional React component named App
 - Export it as default: export default function App() { ... }
 - Use Tailwind CSS if explicitly asked by the user, otherwise use plain CSS
-- Ensure the design is fully responsive and clean
+- Ensure the design is fully responsive, clean, and modern
 - Include helpful comments in the code
 
 Important:
@@ -72,7 +110,7 @@ app.post('/api/explain', async (req, res) => {
   }
 
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
     const explainPrompt = `
 You are an expert React developer.
@@ -97,19 +135,21 @@ Important:
   }
 });
 
-// Regenerate code
+// Regenerate code (new variation)
 app.post('/api/regenerate', async (req, res) => {
   if (!lastPrompt) {
     return res.status(400).json({ error: 'No previous prompt found' });
   }
 
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+
+    const imageUrls = await fetchUnsplashImages(lastPrompt, 3);
+    const fallbackUrl = 'https://source.unsplash.com/random/800x600';
+    const imageList = imageUrls.length > 0 ? imageUrls.join(', ') : fallbackUrl;
 
     const promptText = `
-You are an expert React and Tailwind CSS frontend developer.
-
-You are an expert React, Tailwind CSS, and UI/UX designer.
+You are an expert React, Tailwind CSS, and UI/UX designer, and also an excellent SVG generator who always creates clean, valid, production-ready inline SVGs.
 
 Your design and code must:
 - Be fully responsive across all devices
@@ -118,6 +158,14 @@ Your design and code must:
 - Use best practices in both React and Tailwind CSS
 - Produce beautiful layouts with balanced spacing, typography, and color
 - Always generate visually stunning, elegant, and user-friendly interfaces
+- Use these live Unsplash image URLs wherever suitable so images always load, but only include images if the user explicitly asks for them or if the generated code naturally requires images: ${imageList}
+
+
+Important:
+- This must be your best possible, production-ready version on the first attempt
+- Code should be clean, beautiful, maintainable, and immediately usable in production
+- Do NOT use npm libraries like react-icons or any imports that require installation
+– For social media icons, do not use SVGs. Instead, use clean, accessible text labels or styled buttons with the social platform names (e.g., “Facebook”, “Twitter”). Design them to look modern and visually appealing using Tailwind CSS or plain CSS.- Only use production-ready inline SVGs copied directly from trusted icon libraries like Heroicons, Feather, or Remix Icon
 
 
 Task: Based on the same user request: "${lastPrompt}"
@@ -131,10 +179,9 @@ Generate:
 - Include helpful comments in the code
 - Create a slightly different variation from the previous one
 
-
 Important:
 - Do NOT include markdown fences, no backticks, no explanation
-- Return only clean React code
+- Return only the clean React code
 `;
 
     const result = await model.generateContent(promptText);
@@ -151,4 +198,3 @@ Important:
 app.listen(PORT, () =>
   console.log(`🚀 Server running on http://localhost:${PORT}`)
 );
-
