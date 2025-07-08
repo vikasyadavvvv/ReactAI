@@ -8,13 +8,8 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(cors({
-origin: ['http://localhost:5173/', 'https://react-ai-theta.vercel.app'],
-  methods: ['GET', 'POST'],
-  credentials: true
-}));
-app.use(express.json());
-
+app.use(express.json())
+app.use(cors())
 // Initialize Gemini
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
