@@ -69,6 +69,8 @@ Your design and code must:
 - Produce beautiful layouts with balanced spacing, typography, and color
 - Always generate visually stunning, elegant, and user-friendly interfaces
 - Use these live Unsplash image URLs wherever suitable so images always load, but only include images if the user explicitly asks for them or if the generated code naturally requires images: ${imageList}
+- Do NOT include markdown fences, no backticks, no explanation
+- Return only the clean React code
 
 Important:
 - This must be your best possible, production-ready version on the first attempt
@@ -87,9 +89,6 @@ Generate:
 - Ensure the design is fully responsive, clean, and modern
 - Include helpful comments in the code
 
-Important:
-- Do NOT include markdown fences, no backticks, no explanation
-- Return only the clean React code
 `;
 
     const result = await model.generateContent(promptText);
@@ -159,6 +158,8 @@ Your design and code must:
 - Produce beautiful layouts with balanced spacing, typography, and color
 - Always generate visually stunning, elegant, and user-friendly interfaces
 - Use these live Unsplash image URLs wherever suitable so images always load, but only include images if the user explicitly asks for them or if the generated code naturally requires images: ${imageList}
+- Do NOT include markdown fences, no backticks, no explanation
+- Return only the clean React code
 
 
 Important:
@@ -171,7 +172,7 @@ Important:
 Task: Based on the same user request: "${lastPrompt}"
 
 Generate:
-- One single file: App.js
+- One single file: App.jsx
 - It must contain a valid functional React component named App
 - Export it as default: export default function App() { ... }
 - Use Tailwind CSS if explicitly asked by the user, otherwise use plain CSS
@@ -179,9 +180,7 @@ Generate:
 - Include helpful comments in the code
 - Create a slightly different variation from the previous one
 
-Important:
-- Do NOT include markdown fences, no backticks, no explanation
-- Return only the clean React code
+
 `;
 
     const result = await model.generateContent(promptText);

@@ -131,7 +131,7 @@ const ReactAIProduct = ({ onBack }) => {
   "Modal dialog with overlay and close button implemented using React functional components, Tailwind CSS for layout and styling, and React hooks (useState) for managing open/close state, all inside a single file.",
   "Accordion component with smooth animations built as React functional components, styled with Tailwind CSS classes, and using inline styling or inline keyframes directly in the same file for animation, avoiding external CSS.",
   "Pagination component for a data table implemented with React functional components, styled entirely with Tailwind CSS classes and optional inline styling for active page highlights, with no extra CSS files.",
-  "Dark/light theme toggle switch built using React functional components and Tailwind CSS dark mode classes, managed with React hooks (useState), and using inline styling for any custom transitions, all in one file.",
+  "Design a simple notification banner, a toast message, and an alert box.",
   "Loading spinner with custom animation created as a React functional component, styled with Tailwind CSS classes and inline keyframes or inline styles for the animation, completely independent of external CSS files."
             ].map((prompt, index) => (
               <div key={index} className="bg-gray-800/50 border border-gray-700/50 rounded-lg p-4 hover:border-blue-400/30 transition-all">
