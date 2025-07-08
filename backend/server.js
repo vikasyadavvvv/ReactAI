@@ -8,8 +8,8 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(express.json())
 app.use(cors())
+app.use(express.json())
 // Initialize Gemini
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
@@ -22,7 +22,7 @@ app.post('/api/generate', async (req, res) => {
   lastPrompt = prompt;
 
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-" });
 
     const promptText = `
 You are an expert React and Tailwind CSS frontend developer.
@@ -34,8 +34,7 @@ Generate:
 - It must contain a valid functional React component named App
 - Export it as default: export default function App() { ... }
 - Use Tailwind CSS if explicitly asked by the user, otherwise use plain CSS
-- Always create a professional, clean, and modern UI
-- Always return fully working code with real functionalities (like dark and light mode toggle, animations, etc.)
+- Always generate visually impressive, attractive, and professional code with a clean, modern UI
 - Provide complete and large code that is best practice, clean, and includes helpful comments
 
 
@@ -103,9 +102,8 @@ Generate:
 - It must contain a valid functional React component named App
 - Export it as default: export default function App() { ... }
 - Use Tailwind CSS if explicitly asked by the user, otherwise use plain CSS
-- Always create a professional, clean, and modern UI
+- Always generate visually impressive, attractive, and professional code with a clean, modern UI
 - Create a slightly different variation from the previous one
-- Always return fully working code with real functionalities (like dark and light mode toggle, animations, etc.)
 - Provide complete and large code that is best practice, clean, and includes helpful comments
 
 Important:
