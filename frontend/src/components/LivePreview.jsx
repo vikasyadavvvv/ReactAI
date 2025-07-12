@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { FiZap } from 'react-icons/fi';
 
 const LivePreview = ({ code }) => {
   const iframeRef = useRef(null);
@@ -68,6 +69,8 @@ const LivePreview = ({ code }) => {
     setError(null);
 
     const cleanedCode = cleanCode(code);
+    if (!cleanedCode) return;  // don’t render anything if no code
+
     const isReact = /(export\s+default|function\s+App|const\s+App|class\s+App)/.test(cleanedCode);
 
     try {
@@ -98,14 +101,24 @@ const LivePreview = ({ code }) => {
     }
   }, [code]);
 
+  const cleanedCode = cleanCode(code);
+
   return (
-    <div className="relative border border-gray-200 rounded-2xl shadow-sm overflow-hidden bg-white h-[50vh] flex flex-col">
-      <iframe
-        ref={iframeRef}
-        title="Live Preview"
-        className="flex-1 w-full border-0"
-        sandbox="allow-scripts allow-same-origin"
-      />
+    <div className="relative border border-gray-200 rounded-2xl shadow-sm overflow-hidden bg-white h-[50vh] flex items-center justify-center">
+      {(!cleanedCode && !error) ? (
+        <div className="flex flex-col items-center justify-center text-gray-400">
+          <FiZap className="h-10 w-10 mb-2" />
+          <span className="text-sm">No preview generated yet</span>
+        </div>
+      ) : (
+        <iframe
+          ref={iframeRef}
+          title="Live Preview"
+          className="absolute inset-0 w-full h-full border-0"
+          sandbox="allow-scripts allow-same-origin"
+        />
+      )}
+
       {error && (
         <div className="absolute inset-0 bg-white bg-opacity-90 p-4 text-red-600 overflow-auto text-sm shadow-inner animate-fadeIn">
           <strong>Preview Error:</strong> {error}
@@ -116,3 +129,4 @@ const LivePreview = ({ code }) => {
 };
 
 export default LivePreview;
+

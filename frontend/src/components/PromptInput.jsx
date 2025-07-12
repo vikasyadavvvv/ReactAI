@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const PromptInput = ({setCode, code,  setExplanation }) => {
+const PromptInput = ({ setCode, code, setExplanation }) => {
   const [prompt, setPrompt] = useState('');
   const [loading, setLoading] = useState(false);
   const [explainLoading, setExplainLoading] = useState(false);
@@ -21,27 +21,26 @@ const PromptInput = ({setCode, code,  setExplanation }) => {
     }
   };
 
- const explainCode = async () => {
-  if (!code) {
-    alert('No code available to explain!');
-    return;
-  }
-  setExplainLoading(true);
-  try {
-    const res = await axios.post('https://reactai-1.onrender.com/api/explain', { code });
-    if (setExplanation) {
-      setExplanation(res.data.explanation);
-    } else {
-      alert(res.data.explanation);
+  const explainCode = async () => {
+    if (!code) {
+      alert('No code available to explain!');
+      return;
     }
-  } catch (err) {
-    console.error(err);
-    alert('Error explaining code');
-  } finally {
-    setExplainLoading(false);
-  }
-};
-
+    setExplainLoading(true);
+    try {
+      const res = await axios.post('https://reactai-1.onrender.com/api/explain', { code });
+      if (setExplanation) {
+        setExplanation(res.data.explanation);
+      } else {
+        alert(res.data.explanation);
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Error explaining code');
+    } finally {
+      setExplainLoading(false);
+    }
+  };
 
   const regenerateCode = async () => {
     setRegenLoading(true);
@@ -96,6 +95,7 @@ const PromptInput = ({setCode, code,  setExplanation }) => {
 
       {/* Buttons */}
       <div className="flex flex-col sm:flex-row gap-3">
+        {/* Generate Code button */}
         <button
           onClick={generateCode}
           disabled={loading}
@@ -106,13 +106,10 @@ const PromptInput = ({setCode, code,  setExplanation }) => {
             }`}
         >
           {loading ? (
-            <>
-              <svg className="animate-spin h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-              </svg>
-              Generating...
-            </>
+            <svg className="animate-spin h-5 w-5 text-blue-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+            </svg>
           ) : (
             <>
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -123,30 +120,45 @@ const PromptInput = ({setCode, code,  setExplanation }) => {
           )}
         </button>
 
-       <button
-  onClick={explainCode}
-  disabled={!code || explainLoading}
-  className={`flex-1 py-3 px-4 rounded-lg font-medium transition-all duration-200 flex items-center justify-center gap-2
-    ${(!code || explainLoading)
-      ? 'bg-gray-700 text-gray-400 cursor-not-allowed'
-      : 'bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:from-green-600 hover:to-emerald-700 shadow-md hover:shadow-lg transform hover:-translate-y-0.5'
-    }`}
->
-  {explainLoading ? 'Explaining...' : 'Explain Code'}
-</button>
+        {/* Explain Code button */}
+        <button
+          onClick={explainCode}
+          disabled={!code || explainLoading}
+          className={`flex-1 py-3 px-4 rounded-lg font-medium transition-all duration-200 flex items-center justify-center gap-2
+            ${(!code || explainLoading)
+              ? 'bg-gray-700 text-gray-400 cursor-not-allowed'
+              : 'bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:from-green-600 hover:to-emerald-700 shadow-md hover:shadow-lg transform hover:-translate-y-0.5'
+            }`}
+        >
+          {explainLoading ? (
+            <svg className="animate-spin h-5 w-5 text-green-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+            </svg>
+          ) : (
+            'Explain Code'
+          )}
+        </button>
 
-<button
-  onClick={regenerateCode}
-  disabled={!code || regenLoading}
-  className={`flex-1 py-3 px-4 rounded-lg font-medium transition-all duration-200 flex items-center justify-center gap-2
-    ${(!code || regenLoading)
-      ? 'bg-gray-700 text-gray-400 cursor-not-allowed'
-      : 'bg-gradient-to-r from-yellow-500 to-orange-500 text-white hover:from-yellow-600 hover:to-orange-600 shadow-md hover:shadow-lg transform hover:-translate-y-0.5'
-    }`}
->
-  {regenLoading ? 'Regenerating...' : 'Regenerate for an even better version'}
-</button>
-
+        {/* Regenerate Code button */}
+        <button
+          onClick={regenerateCode}
+          disabled={!code || regenLoading}
+          className={`flex-1 py-3 px-4 rounded-lg font-medium transition-all duration-200 flex items-center justify-center gap-2
+            ${(!code || regenLoading)
+              ? 'bg-gray-700 text-gray-400 cursor-not-allowed'
+              : 'bg-gradient-to-r from-yellow-500 to-orange-500 text-white hover:from-yellow-600 hover:to-orange-600 shadow-md hover:shadow-lg transform hover:-translate-y-0.5'
+            }`}
+        >
+          {regenLoading ? (
+            <svg className="animate-spin h-5 w-5 text-yellow-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+            </svg>
+          ) : (
+            'Regenerate for an even better version'
+          )}
+        </button>
       </div>
 
       {/* Example prompt */}
