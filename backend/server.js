@@ -193,6 +193,10 @@ Generate:
   }
 });
 
+app.get('/', (req, res) => {
+  res.send(`API IS RUNNING`); // Sends response to client
+  console.log('Backend is running'); // Logs in server (Vercel logs)
+});
 // Start server
 app.listen(PORT, () =>
   console.log(`🚀 Server running on http://localhost:${PORT}`)
